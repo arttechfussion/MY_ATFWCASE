@@ -10,7 +10,7 @@ const Config = class {
 
     try {
       // Renamed .env to config.txt to avoid server security restrictions
-      const path = '/env/config.txt'; 
+      const path = './env/config.txt'; 
 
       const response = await fetch(path);
 
