@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATF-SHOWCASE Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="bg-gray-100 text-gray-800 overflow-x-hidden">
+
+    <div id="app" class="min-h-screen">
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="fixed inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+            <div class="text-center">
+                <div class="loader mx-auto mb-4"></div>
+                <p class="text-gray-600">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Admin Login Page -->
+        <section id="login-page" class="flex flex-col items-center justify-center min-h-screen container-padding bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="w-full max-w-md animate-fade-in">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-shield text-white text-2xl"></i>
+                    </div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-2">Admin Login</h1>
+                    <p class="text-gray-600">Access the ATF-SHOWCASE management panel.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-xl border border-white/20">
+                    <form id="login-form">
+                        <div class="mb-4">
+                            <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                            <input type="text" id="username" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl shadow-sm form-input" required placeholder="Enter your username">
+                        </div>
+                        <div class="mb-6">
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="password" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl shadow-sm form-input" required placeholder="Enter your password">
+                        </div>
+                        <p id="login-error" class="text-red-500 text-sm mb-4 text-center hidden"></p>
+                        <button type="submit" class="w-full text-white py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 btn-primary font-medium">
+                            Login
+                        </button>
+                    </form>
+                </div>
+                 <div class="text-center mt-6">
+                    <a href="../user/user.html" id="back-to-user-view-btn" class="text-sm text-blue-600 hover:underline">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Showcase
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel -->
+        <section id="admin-panel" class="hidden">
+            <div class="flex h-screen bg-gray-100">
+                <!-- Sidebar -->
+                <aside id="sidebar" class="w-64 sidebar flex-shrink-0 flex flex-col text-white transition-all duration-300 fixed lg:relative lg:translate-x-0 -translate-x-full h-full">
+                    <!-- Sidebar Header -->
+                    <div class="sidebar-header p-4 flex items-center justify-between flex-shrink-0 border-b border-blue-700/30">
+                        <div class="sidebar-header-text flex items-center transition-all duration-300">
+                            <div>
+                                <h1 class="text-lg font-bold">ATF-SHOWCASE</h1>
+                                <p class="text-xs text-blue-200">Admin Panel</p>
+                            </div>
+                        </div>
+                        <button id="menu-toggle" class="text-white/80 hover:text-white transition-colors p-2 rounded-lg hover:bg-blue-800/50">
+                            <i class="fas fa-angle-double-left text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <nav class="flex-grow overflow-y-auto py-4">
+                        <a href="#" data-view="dashboard" class="admin-nav-link active flex items-center px-6 py-3 transition-all relative">
+                            <i class="fas fa-tachometer-alt mr-3 w-5 text-center"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                        <a href="#" data-view="weblist" class="admin-nav-link flex items-center px-6 py-3 transition-all relative">
+                            <i class="fas fa-list mr-3 w-5 text-center"></i>
+                            <span class="nav-text">Web List</span>
+                        </a>
+                        <a href="#" data-view="addEntry" class="admin-nav-link flex items-center px-6 py-3 transition-all relative">
+                            <i class="fas fa-plus-circle mr-3 w-5 text-center"></i>
+                            <span class="nav-text">Add Entry</span>
+                        </a>
+                        <a href="#" data-view="categories" class="admin-nav-link flex items-center px-6 py-3 transition-all relative">
+                            <i class="fas fa-tags mr-3 w-5 text-center"></i>
+                            <span class="nav-text">Categories</span>
+                        </a>
+                    </nav>
+                    
+                    <div class="p-6 border-t border-blue-700/30 flex-shrink-0">
+                        <button id="admin-logout-btn" class="w-full flex items-center text-left hover:bg-blue-800/50 p-3 rounded-lg transition-colors">
+                            <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i>
+                            <span class="nav-text">Logout</span>
+                        </button>
+                    </div>
+                </aside>
+                
+                <!-- Main Content -->
+                <div id="main-content-wrapper" class="flex-1 flex flex-col transition-all duration-300 relative">
+                    <!-- Sidebar Overlay for Mobile -->
+                    <div id="sidebar-overlay" class="sidebar-overlay lg:hidden"></div>
+                    <header class="bg-white shadow-sm p-4 flex justify-between items-center border-b border-gray-200 no-print">
+                        <div class="flex items-center">
+                             <button id="mobile-menu-toggle" class="lg:hidden text-gray-700 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-gray-100 mr-3">
+                                     <i class="fas fa-bars text-xl"></i>
+                             </button>
+                            <h1 class="text-xl font-bold">ATF-SHOWCASE</h1>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-user-shield mr-1"></i>
+                            Admin Panel
+                        </div>
+                    </header>
+                    
+                    <main id="admin-main-content" class="flex-1 container-padding overflow-y-auto py-5 px-4"></main>
+                </div>
+            </div>
+            <!-- Refresh Data FAB -->
+            <button id="admin-refresh-fab" class="fixed bottom-6 right-6 z-30 w-14 h-14 bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-700 transition-transform transform hover:scale-110 no-print" title="Refresh Data">
+                <i class="fas fa-sync-alt text-xl"></i>
+            </button>
+        </section>
+    </div>
+
+    <!-- MODALS -->
+    
+    <!-- Edit Website Modal -->
+    <div id="edit-modal" class="fixed inset-0 modal-overlay flex items-center justify-center z-40 hidden animate-fade-in p-4">
+        <div class="bg-white modal-content w-full max-w-2xl animate-slide-in-up flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-gray-200 flex-shrink-0">
+                <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-edit text-blue-600 mr-3"></i>
+                    Edit Website
+                </h2>
+            </div>
+            
+            <form id="edit-entry-form" class="flex-1 overflow-y-auto p-6">
+                <input type="hidden" id="edit-web-id">
+                <input type="hidden" id="edit-web-original-category">
+                <input type="hidden" id="edit-web-image-base64">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="edit-web-name" class="block text-sm font-medium text-gray-700 mb-2">Website Name</label>
+                        <input type="text" id="edit-web-name" class="block w-full px-4 py-3 border rounded-lg shadow-sm form-input" required>
+                    </div>
+                    
+                    <div>
+                        <label for="edit-web-category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select id="edit-web-category" class="block w-full px-4 py-3 border bg-white rounded-lg shadow-sm form-input" required>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label for="edit-web-url" class="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
+                    <input type="text" id="edit-web-url" class="block w-full px-4 py-3 border rounded-lg shadow-sm form-input" required placeholder="https://example.com or example.com">
+                </div>
+
+                <div class="mt-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Website Image</label>
+                    <div class="flex items-start gap-4">
+                        <div class="image-preview-container">
+                            <div id="edit-image-preview-placeholder" class="image-preview-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>No Image</p>
+                            </div>
+                            <img id="edit-image-preview" src="" alt="Image Preview" class="hidden"/>
+                            <button id="remove-image-btn" class="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center transition-opacity duration-200 shadow-md hover:bg-red-600">
+                                <i class="fas fa-times text-xs"></i>
+                            </button>
+                            <div id="upload-progress" class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg opacity-0 pointer-events-none transition-opacity duration-300">
+                                <div class="text-white text-center">
+                                    <div class="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                                    <span class="text-sm font-medium">Uploading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                             <input type="file" id="edit-web-image" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" accept="image/*">
+                             <p class="text-xs text-gray-500 mt-2">Max 5MB. Leave blank to keep current image.</p>
+                             <p id="edit-image-error" class="error-text hidden"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label for="edit-web-desc" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <div class="relative">
+                        <textarea id="edit-web-desc" rows="6" class="block w-full px-4 py-3 border rounded-lg shadow-sm form-input resize-none" required></textarea>
+                        <div id="edit-desc-loader" class="absolute inset-0 bg-white/90 flex items-center justify-center hidden rounded-lg">
+                            <div class="loader content-loader"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="flex justify-end space-x-4 p-6 border-t border-gray-200 flex-shrink-0 flex-responsive gap-responsive">
+                <button type="button" id="cancel-edit-btn" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-medium">
+                    Cancel
+                </button>
+                <button type="submit" form="edit-entry-form" class="px-6 py-3 text-white rounded-lg btn-primary font-medium form-submit-btn">
+                    <i class="fas fa-save mr-2"></i>
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Category Modal -->
+    <div id="edit-category-modal" class="fixed inset-0 modal-overlay flex items-center justify-center z-40 hidden animate-fade-in">
+        <div class="bg-white modal-content w-full max-w-md animate-slide-in-up">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-tag text-blue-600 mr-3"></i>
+                    Edit Category
+                </h2>
+            </div>
+            
+            <form id="edit-category-form" class="p-6">
+                <input type="hidden" id="edit-category-old-name">
+                <div class="mb-6">
+                    <label for="edit-category-new-name" class="block text-sm font-medium text-gray-700 mb-2">New Category Name</label>
+                    <input type="text" id="edit-category-new-name" class="block w-full px-4 py-3 border rounded-lg shadow-sm form-input" required>
+                </div>
+                
+                <div class="flex justify-end space-x-4 flex-responsive gap-responsive">
+                    <button type="button" id="cancel-edit-category-btn" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-medium">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-3 text-white rounded-lg btn-primary font-medium form-submit-btn">
+                        <i class="fas fa-save mr-2"></i>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-white modal-content w-full max-w-md animate-slide-in-up">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-exclamation-triangle text-red-600"></i>
+                    </div>
+                    <div>
+                        <h3 id="confirmation-title" class="text-lg font-medium text-gray-900">Are you sure?</h3>
+                        <p id="confirmation-message" class="text-sm text-gray-500 mt-1">This action cannot be undone.</p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-4 flex-responsive gap-responsive">
+                    <button id="confirmation-cancel-btn" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-medium">
+                        Cancel
+                    </button>
+                    <button id="confirmation-confirm-btn" class="px-6 py-3 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-all font-medium form-submit-btn">
+                        <i class="fas fa-trash mr-2"></i>
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2 w-full max-w-sm no-print"></div>
+
+    <script src="../config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

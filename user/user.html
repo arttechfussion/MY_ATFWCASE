@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATF-SHOWCASE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="user.css">
+</head>
+<body class="bg-gray-100 text-gray-800 overflow-x-hidden">
+
+    <div id="app" class="min-h-screen">
+        <!-- User Dashboard -->
+        <section id="user-dashboard">
+            <header class="bg-white/95 backdrop-blur-lg shadow-sm p-4 sticky top-0 z-30 border-b border-gray-200">
+                <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-gray-900">ATF-SHOWCASE</h1>
+                    </div>
+                    <div class="flex items-center space-x-4 w-full sm:w-auto">
+                        <div class="relative flex-grow sm:max-w-xs w-full">
+                            <input type="text" id="user-search-bar" placeholder="Search websites..." class="w-full pl-10 pr-4 py-2 border rounded-lg form-input">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        <select id="user-category-filter" class="bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm">
+                            <option value="All">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+            
+            <main id="user-main-content" class="container mx-auto p-6 flex-grow">
+                <!-- Heading Container -->
+                <div class="mb-8 text-center">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2 website-gallery-text">Website Gallery</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Discover and explore curated websites across different categories.</p>
+                </div>
+                
+                <!-- Grid Container -->
+                <div id="website-list-container" class="mb-8">
+                    <div id="website-list" class="grid grid-responsive gap-6">
+                        <!-- Website cards will be injected here -->
+                    </div>
+                </div>
+
+                <!-- Pagination Container -->
+                <div id="user-pagination-container">
+                    <div id="user-pagination" class="flex justify-center items-center mt-8 space-x-2 flex-wrap gap-2">
+                        <!-- Pagination buttons will be injected here -->
+                    </div>
+                </div>
+            </main>
+
+            <footer class="bg-white border-t border-gray-200 mt-auto">
+                <div class="container mx-auto py-6 px-4 text-center text-gray-600">
+                    <p>&copy; 2025 ATF-SHOWCASE. Created by <a href="https://arttechfuzion.com/" style="color:#1d4ed8;">Art-Tech Fuzion</a>.</p>
+                </div>
+            </footer>
+
+            <!-- Admin Login Floating Action Button -->
+            <a href="../admin/admin.html" id="admin-login-fab" class="admin-login-fab no-print" title="Admin Login">
+                <i class="fas fa-user-shield text-2xl"></i>
+            </a>
+        </section>
+    </div>
+
+    <script src="../config.js"></script>
+    <script src="user.js"></script>
+</body>
+</html>
