@@ -1,3 +1,3 @@
 # Environment Configuration
 # Google Apps Script URL
-SCRIPT_URL= https://script.google.com/macros/s/AKfycbx_12UbT3ws_RJobJnpyfhfgZWeLv9AgzIhWTCBsRjqYKqkJtjaVJyCPzx4-nLVXOrm/exec
+SCRIPT_URL= https://script.google.com/macros/s/AKfycby-o9NZDPAVala0wAORna8q92IfcB8roBATlA57hNDZP7z64L8AHRG4923AfTOVY5Sc/exec
