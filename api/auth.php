@@ -7,6 +7,13 @@
 require_once 'db.php';
 require_once 'utils.php';
 
+ // Set session timeout to 24 hours
+    ini_set('session.gc_maxlifetime', 86400);
+
+// Start session
+    session_start();
+
+
 setCorsHeaders();
 
 // Get request input
@@ -62,15 +69,13 @@ function handleLogin($db, $params) {
         $admin = $stmt->fetch();
 
         if ($admin && $password === $admin['password']) {
-            // Start session
-            session_start();
+            
             $_SESSION['admin_logged_in'] = true;
             $_SESSION['admin_id'] = $admin['id'];
             $_SESSION['admin_username'] = $admin['username'];
             $_SESSION['login_time'] = time();
             
-            // Set session timeout to 24 hours
-            ini_set('session.gc_maxlifetime', 86400);
+           
             
             $sessionId = session_id();
             

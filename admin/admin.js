@@ -24,6 +24,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
 
   // --- CORE FUNCTIONS ---
+  
+  // Is helper function ko apne CORE FUNCTIONS section mein daal dein
+function getCorrectImagePath(rawPath) {
+    if (!rawPath || rawPath.startsWith('http') || rawPath.startsWith('/')) {
+        return rawPath; // Path pehle se hi theek hai, ya khaali hai
+    }
+    // Shuru mein slash (/) add karein taaki yeh root se path banaye
+    return `/${rawPath}`; 
+}
 
   async function apiCall(action, params = {}, showFullscreenLoader = false) {
     // Check if loadingSpinner exists before trying to manipulate it
@@ -906,7 +915,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.dataset.category = site.category;
 
       const imageHtml = site.image
-        ? `<img src="${site.image}" alt="${site.name}" class="w-full h-48 object-cover object-position-top-center" loading="lazy">`
+        ? `<img src="${getCorrectImagePath(site.image)}" alt="${site.name}" class="w-full h-48 object-cover object-position-top-center" loading="lazy">`
         : `<div class="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
                     <i class="fas fa-image text-4xl"></i>
                 </div>`;
@@ -1207,7 +1216,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const imagePath = entryData.image.startsWith("IMG/")
           ? "../" + entryData.image
           : entryData.image;
-        document.getElementById("new-image-preview").src = imagePath;
+        document.getElementById("new-image-preview").src = getCorrectImagePath(entryData.image);
         document.getElementById("new-image-preview").classList.remove("hidden");
         document
           .getElementById("new-image-preview-placeholder")
@@ -1231,7 +1240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       .getElementById("new-image-choose-btn")
       .addEventListener("click", () => {
         window.openImageGallery((imageData) => {
-          document.getElementById("new-image-preview").src = imageData.filepath;
+          document.getElementById("new-image-preview").src = getCorrectImagePath(imageData.filepath);
           document
             .getElementById("new-image-preview")
             .classList.remove("hidden");
@@ -1666,7 +1675,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("edit-image-choose-btn")
     .addEventListener("click", () => {
       window.openImageGallery((imageData) => {
-        document.getElementById("edit-image-preview").src = imageData.filepath;
+        document.getElementById("edit-image-preview").src = getCorrectImagePath(imageData.filepath);
         document
           .getElementById("edit-image-preview")
           .classList.remove("hidden");
@@ -2323,7 +2332,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       div.className =
         "relative group cursor-pointer border-2 border-transparent hover:border-blue-500 rounded-lg overflow-hidden transition-all";
       div.innerHTML = `
-                <img src="${img.filepath}" alt="${
+                <img src="${getCorrectImagePath(img.filepath)}" alt="${
         img.filename
       }" class="w-full h-32 object-cover">
                 <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all flex items-center justify-center">

@@ -175,8 +175,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 card.className = "bg-white rounded-xl p-0 flex flex-col card animate-slide-in-up overflow-hidden";
                 card.style.animationDelay = `${index * 0.05}s`;
 
-                const imageHtml = site.image ? 
-                    `<img src="${site.image}" alt="${site.name}" class="w-full h-48 object-cover object-position-top-center" loading="lazy">` :
+                // Path ke shuru mein "/" add karein
+               const imagePath = site.image ? `/${site.image}` : '';
+
+               const imageHtml = imagePath ? 
+                   `<img src="${imagePath}" alt="${site.name}" class="w-full h-48 object-cover object-position-top-center" loading="lazy">` :
                     `<div class="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
                         <i class="fas fa-image text-4xl"></i>
                     </div>`;
