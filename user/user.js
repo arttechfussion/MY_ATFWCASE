@@ -143,9 +143,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (result && Array.isArray(result)) {
                 allUserWebsites = result.sort((a, b) => {
-                    const dateA = a.date_added ? new Date(a.date_added) : new Date(0);
-                    const dateB = b.date_added ? new Date(b.date_added) : new Date(0);
-                    return dateB - dateA;
+                    // Combine date and time for accurate sorting
+                    const dateTimeA = a.date_added && a.time_added 
+                        ? new Date(a.date_added + ' ' + a.time_added) 
+                        : new Date(0);
+                    const dateTimeB = b.date_added && b.time_added 
+                        ? new Date(b.date_added + ' ' + b.time_added) 
+                        : new Date(0);
+                    return dateTimeB - dateTimeA;
                 });
                 renderUserView(1);
             } else {

@@ -1,0 +1,9 @@
+# ATF Showcase Configuration
+# Copy this file to config.txt and update with your settings
+
+# API Base URL
+# For local development:
+SCRIPT_URL=http://localhost/api/
+
+# For production (use your domain):
+# SCRIPT_URL=https://yourdomain.com/api/

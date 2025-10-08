@@ -1,0 +1,69 @@
+# ATF Showcase - Git Ignore
+
+# Environment configuration (contains sensitive data)
+env/config.txt
+
+# Database configuration (contains credentials)
+api/db.php
+
+# Uploaded images
+IMG/*
+!IMG/.gitkeep
+IMG/temp-img/*
+!IMG/temp-img/.gitkeep
+
+# Logs
+*.log
+/var/log/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.project
+.settings/
+
+# Backup files
+*.bak
+*.backup
+*.sql.gz
+*.tar.gz
+backup_*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# PHP
+vendor/
+composer.lock
+
+# Node (if using any build tools)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+dist/
+build/
+
+# Test files
+phpunit.xml
+.phpunit.result.cache
