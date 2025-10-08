@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- CORE API FUNCTION ---
     async function apiCall(action, params = {}) {
         try {
-            console.log(`Making API call to: ${SCRIPT_URL}`);
-            console.log(`Action: ${action}`, params);
-
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 headers: {
@@ -33,16 +30,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const result = await response.json();
-            console.log(`API response:`, result);
             return result;
         } catch (error) {
             console.error('API Call Error:', error);
-            console.error('Error details:', {
-                message: error.message,
-                stack: error.stack,
-                action: action,
-                params: params
-            });
             showError(`Failed to fetch data: ${error.message}`);
             return { success: false, message: error.message };
         }
@@ -157,7 +147,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 showError('Failed to load websites. Please try again later.');
             }
         } catch (error) {
-            console.error('Error loading dashboard:', error);
             showError('Failed to load dashboard. Please try again later.');
         }
     }

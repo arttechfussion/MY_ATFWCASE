@@ -2298,7 +2298,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           grid.classList.remove("hidden");
         }
       } else {
-        console.warn("No images in response or API failed");
+        // No images in response or API failed
         empty.classList.remove("hidden");
       }
     } catch (error) {

@@ -12,7 +12,6 @@ window.config = {
     async load() {
         // If already loaded, return immediately
         if (this.scriptUrl) {
-            console.log('Configuration already loaded:', this.scriptUrl);
             return;
         }
 
@@ -29,22 +28,19 @@ window.config = {
 
             // Try to load config file
             const configPath = basePath + 'env/config.txt';
-            console.log('Attempting to load config from:', configPath);
             
             try {
                 const response = await fetch(configPath);
                 if (response.ok) {
                     const configText = await response.text();
-                    console.log('Configuration file loaded successfully');
                     this.parseConfig(configText);
                     return;
                 }
             } catch (fetchError) {
-                console.warn('Could not fetch config file:', fetchError);
+                // Could not fetch config file
             }
 
             // Fallback: Auto-detect API URL from current location
-            console.warn('Using auto-detected API URL');
             const pathParts = window.location.pathname.split('/').filter(p => p);
             
             // Remove last part if it's a file
@@ -59,13 +55,10 @@ window.config = {
             
             const basePath2 = pathParts.length > 0 ? '/' + pathParts.join('/') : '';
             this.scriptUrl = window.location.origin + basePath2 + '/api/';
-            console.log('Auto-detected API URL:', this.scriptUrl);
             
         } catch (error) {
-            console.error('Error loading configuration:', error);
             // Last resort: use /api/ relative to origin
             this.scriptUrl = window.location.origin + '/showcase/api/';
-            console.warn('Using hardcoded fallback URL:', this.scriptUrl);
         }
     },
 
